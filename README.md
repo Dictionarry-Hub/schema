@@ -5,7 +5,13 @@
 This repository hosts the base schema applied to all
 [Profilarr Compliant Databases](https://dictionarry.dev/profilarr-setup/linking?section=the-open-standard)
 
-![Schema Diagram](.github/image/schema.svg)
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/image/schema-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".github/image/schema.svg">
+    <img alt="PCD Schema Diagram" src=".github/image/schema.svg" width="100%">
+  </picture>
+</p>
 
 ## Documentation
 
