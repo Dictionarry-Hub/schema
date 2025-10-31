@@ -5,6 +5,8 @@
 This repository hosts the base schema applied to all
 [Profilarr Compliant Databases](https://dictionarry.dev/profilarr-setup/linking?section=the-open-standard)
 
+![Schema Diagram](.github/image/schema.svg)
+
 ## Documentation
 
 - [Manifest Specification](docs/manifest.md) - Required manifest file format for
