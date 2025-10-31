@@ -1,0 +1,22 @@
+{
+  "name": "schema",
+  "version": "1.0.0",
+  "description": "Base schema for all Profilarr Compliant Databases - defines the structural foundation that all PCDs build upon",
+  "arr_types": ["radarr", "sonarr"],
+  
+  "authors": [
+    {
+      "name": "Dictionarry Team"
+    }
+  ],
+  
+  "license": "MIT",
+  "repository": "https://github.com/dictionarry-hub/schema",
+  
+  "tags": ["schema", "foundation", "base"],
+  
+  "links": {
+    "homepage": "https://dictionarry.dev",
+    "issues": "https://github.com/dictionarry-hub/schema/issues"
+  }
+}
