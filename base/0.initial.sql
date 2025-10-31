@@ -83,9 +83,10 @@ CREATE TABLE custom_format_conditions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     custom_format_id INTEGER NOT NULL,
     name VARCHAR(100) NOT NULL,
-    type VARCHAR(50) NOT NULL,  -- release_title, release_group, edition, language, etc.
-    negate INTEGER NOT NULL DEFAULT 0,  -- Invert the match (e.g., "NOT language")
-    required INTEGER NOT NULL DEFAULT 0,  -- Condition must match for format to apply
+    type VARCHAR(50) NOT NULL,
+    arr_type VARCHAR(20) NOT NULL,  -- 'radarr', 'sonarr', 'all'
+    negate INTEGER NOT NULL DEFAULT 0,
+    required INTEGER NOT NULL DEFAULT 0,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (custom_format_id) REFERENCES custom_formats(id) ON DELETE CASCADE
@@ -152,8 +153,9 @@ CREATE TABLE quality_profile_qualities (
 CREATE TABLE quality_profile_custom_formats (
     quality_profile_id INTEGER NOT NULL,
     custom_format_id INTEGER NOT NULL,
-    score INTEGER NOT NULL,  -- Positive scores prefer, negative scores reject
-    PRIMARY KEY (quality_profile_id, custom_format_id),
+    arr_type VARCHAR(20) NOT NULL,  -- 'radarr', 'sonarr', 'all',
+    score INTEGER NOT NULL,
+    PRIMARY KEY (quality_profile_id, custom_format_id, arr_type),
     FOREIGN KEY (quality_profile_id) REFERENCES quality_profiles(id) ON DELETE CASCADE,
     FOREIGN KEY (custom_format_id) REFERENCES custom_formats(id) ON DELETE CASCADE
 );
