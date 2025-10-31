@@ -1,14 +1,19 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# Profilarr Base Schema
+# Schema
 
 This repository hosts the base schema applied to all
 [Profilarr Compliant Databases](https://dictionarry.dev/profilarr-setup/linking?section=the-open-standard)
 
 ## Documentation
 
-- [Manifest Specification](docs/manifest.md) - Required manifest file format for
-  all PCDs
+- [PCD Manifest Specification](docs/manifest.md) - Required manifest file format
+  for all PCDs
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing changes. All
+contributions must be discussed before submission.
 
 ## Changelog
 
