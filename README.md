@@ -7,8 +7,8 @@ This repository hosts the base schema applied to all
 
 ## Documentation
 
-- [PCD Manifest Specification](docs/manifest.md) - Required manifest file format
-  for all PCDs
+- [Manifest Specification](docs/manifest.md) - Required manifest file format for
+  all PCDs
 
 ## Contributing
 
@@ -17,4 +17,4 @@ contributions must be discussed before submission.
 
 ## Changelog
 
-See [CHANGELOG](CHANGELOG) for a list of changes.
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes.
