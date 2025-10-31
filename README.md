@@ -5,6 +5,11 @@
 This repository hosts the base schema applied to all
 [Profilarr Compliant Databases](https://dictionarry.dev/profilarr-setup/linking?section=the-open-standard)
 
+## Documentation
+
+- [Manifest Specification](docs/manifest.md) - Required manifest file format for
+  all PCDs
+
 ## Changelog
 
 See [CHANGELOG](CHANGELOG) for a list of changes.
