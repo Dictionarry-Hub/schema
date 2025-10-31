@@ -12,14 +12,16 @@ on:
       - "v*"
 
 jobs:
-  validate:
+  validate-languages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Validate Languages
         run: ./scripts/validateLanguages.sh
 
+  validate-qualities:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Validate Qualities
         run: ./scripts/validateQualities.sh
-        if: always()
