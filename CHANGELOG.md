@@ -19,3 +19,7 @@ All schema changes will be documented in this file.
     universal
   - quality_profile_custom_formats.arr_type: scores can differ between Radarr
     and Sonarr
+
+## 3-11-25
+
+- Better profile langauge procesing

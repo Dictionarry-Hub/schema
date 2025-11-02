@@ -71,10 +71,8 @@ CREATE TABLE quality_profiles (
     minimum_custom_format_score INTEGER NOT NULL DEFAULT 0,
     upgrade_until_score INTEGER NOT NULL DEFAULT 0,
     upgrade_score_increment INTEGER NOT NULL DEFAULT 1 CHECK (upgrade_score_increment > 0),
-    language_id INTEGER NOT NULL,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (language_id) REFERENCES languages(id)
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Conditions define the matching logic for custom formats
@@ -121,6 +119,17 @@ CREATE TABLE quality_profile_tags (
     PRIMARY KEY (quality_profile_id, tag_id),
     FOREIGN KEY (quality_profile_id) REFERENCES quality_profiles(id) ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
+);
+
+-- Link quality profiles to languages with type modifiers
+-- Type can be: 'must', 'only', 'not', or 'simple' (default language preference)
+CREATE TABLE quality_profile_languages (
+    quality_profile_id INTEGER NOT NULL,
+    language_id INTEGER NOT NULL,
+    type VARCHAR(20) NOT NULL DEFAULT 'simple',  -- 'must', 'only', 'not', 'simple'
+    PRIMARY KEY (quality_profile_id, language_id),
+    FOREIGN KEY (quality_profile_id) REFERENCES quality_profiles(id) ON DELETE CASCADE,
+    FOREIGN KEY (language_id) REFERENCES languages(id) ON DELETE CASCADE
 );
 
 -- Define which qualities belong to which quality groups
