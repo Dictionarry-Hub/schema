@@ -41,14 +41,6 @@ CREATE TABLE qualities (
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- Quality groups combine multiple qualities treated as equivalent
-CREATE TABLE quality_groups (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(100) UNIQUE NOT NULL,
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
 -- Custom formats define patterns and conditions for media matching
 CREATE TABLE custom_formats (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -73,6 +65,18 @@ CREATE TABLE quality_profiles (
     upgrade_score_increment INTEGER NOT NULL DEFAULT 1 CHECK (upgrade_score_increment > 0),
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Quality groups combine multiple qualities treated as equivalent
+-- Each group is specific to a quality profile (profiles do not share groups)
+CREATE TABLE quality_groups (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    quality_profile_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(quality_profile_id, name),
+    FOREIGN KEY (quality_profile_id) REFERENCES quality_profiles(id) ON DELETE CASCADE
 );
 
 -- Conditions define the matching logic for custom formats

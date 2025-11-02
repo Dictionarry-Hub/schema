@@ -23,3 +23,4 @@ All schema changes will be documented in this file.
 ## 3-11-25
 
 - Better profile langauge procesing
+- Make quality groups unique and not reusable across profiles
