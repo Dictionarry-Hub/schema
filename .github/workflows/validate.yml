@@ -6,10 +6,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "v*"
+      - "*"
   pull_request:
     branches:
-      - "v*"
+      - "*"
 
 jobs:
   validate-languages:
