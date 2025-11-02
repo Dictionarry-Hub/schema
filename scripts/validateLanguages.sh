@@ -5,7 +5,7 @@ set -e
 
 RADARR_URL="https://raw.githubusercontent.com/Radarr/Radarr/develop/src/NzbDrone.Core/Languages/Language.cs"
 SONARR_URL="https://raw.githubusercontent.com/Sonarr/Sonarr/develop/src/NzbDrone.Core/Languages/Language.cs"
-LANG_FILE="schema/1.languages.sql"
+LANG_FILE="ops/1.languages.sql"
 
 echo "Fetching Radarr languages..."
 RADARR_LANGS=$(curl -s "$RADARR_URL" | grep "public static Language" | grep -oP '=> new Language\(-?\d+, "\K[^"]+' | sort -u)
