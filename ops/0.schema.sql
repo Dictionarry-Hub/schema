@@ -148,12 +148,15 @@ CREATE TABLE quality_group_members (
 
 -- Define the quality list for a profile (ordered by position)
 -- Each item references either a single quality OR a quality group (never both)
+-- Every quality must be represented (either directly or in a group)
+-- The enabled flag controls whether the quality/group is active
 CREATE TABLE quality_profile_qualities (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     quality_profile_id INTEGER NOT NULL,
     quality_id INTEGER,  -- References a single quality
     quality_group_id INTEGER,  -- OR references a quality group
     position INTEGER NOT NULL,  -- Display order in the profile
+    enabled INTEGER NOT NULL DEFAULT 1,  -- Whether this quality/group is enabled
     upgrade_until INTEGER NOT NULL DEFAULT 0,  -- Stop upgrading at this quality
     CHECK ((quality_id IS NOT NULL AND quality_group_id IS NULL) OR (quality_id IS NULL AND quality_group_id IS NOT NULL)),
     FOREIGN KEY (quality_profile_id) REFERENCES quality_profiles(id) ON DELETE CASCADE,
@@ -253,6 +256,6 @@ CREATE TABLE condition_years (
 -- ============================================================================
 
 -- Ensure only one quality item per profile can be marked as upgrade_until
-CREATE UNIQUE INDEX idx_one_upgrade_until_per_profile 
-ON quality_profile_qualities(quality_profile_id) 
+CREATE UNIQUE INDEX idx_one_upgrade_until_per_profile
+ON quality_profile_qualities(quality_profile_id)
 WHERE upgrade_until = 1;
