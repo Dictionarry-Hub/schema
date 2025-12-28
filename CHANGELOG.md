@@ -24,3 +24,19 @@ All schema changes will be documented in this file.
 
 - Better profile langauge procesing
 - Make quality groups unique and not reusable across profiles
+
+## 28-12-25
+
+- Add quality API mappings for Radarr/Sonarr name translation
+  - quality_api_mappings: maps canonical Profilarr quality names to arr-specific
+    API names (e.g., Remux-1080p -> Bluray-1080p Remux for Sonarr)
+- Add media management tables (arr-specific)
+  - radarr_quality_definitions / sonarr_quality_definitions: size limits
+    (min/max/preferred) per quality
+  - radarr_naming / sonarr_naming: file/folder naming formats
+  - radarr_media_settings / sonarr_media_settings: general settings
+    (propers_repacks, enable_media_info)
+- Add delay profiles for download timing control
+  - delay_profiles: protocol preference, delays, bypass conditions
+  - delay_profile_tags: junction table for tag associations
+  - CHECK constraints for protocol/delay validation

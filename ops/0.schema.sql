@@ -41,6 +41,17 @@ CREATE TABLE qualities (
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Maps Profilarr canonical qualities to arr-specific API names
+-- Absence of a row means the quality doesn't exist for that arr
+CREATE TABLE quality_api_mappings (
+    quality_id INTEGER NOT NULL,
+    arr_type VARCHAR(20) NOT NULL,  -- 'radarr', 'sonarr'
+    api_name VARCHAR(100) NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (quality_id, arr_type),
+    FOREIGN KEY (quality_id) REFERENCES qualities(id) ON DELETE CASCADE
+);
+
 -- Custom formats define patterns and conditions for media matching
 CREATE TABLE custom_formats (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -249,6 +260,123 @@ CREATE TABLE condition_years (
     min_year INTEGER,  -- Null means no minimum
     max_year INTEGER,  -- Null means no maximum
     FOREIGN KEY (custom_format_condition_id) REFERENCES custom_format_conditions(id) ON DELETE CASCADE
+);
+
+-- ============================================================================
+-- MEDIA MANAGEMENT TABLES
+-- ============================================================================
+
+-- Radarr quality size definitions
+CREATE TABLE radarr_quality_definitions (
+    quality_id INTEGER PRIMARY KEY,
+    min_size INTEGER NOT NULL DEFAULT 0,
+    max_size INTEGER NOT NULL,
+    preferred_size INTEGER NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (quality_id) REFERENCES qualities(id) ON DELETE CASCADE
+);
+
+-- Sonarr quality size definitions
+CREATE TABLE sonarr_quality_definitions (
+    quality_id INTEGER PRIMARY KEY,
+    min_size INTEGER NOT NULL DEFAULT 0,
+    max_size INTEGER NOT NULL,
+    preferred_size INTEGER NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (quality_id) REFERENCES qualities(id) ON DELETE CASCADE
+);
+
+-- Radarr naming configuration
+CREATE TABLE radarr_naming (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    rename INTEGER NOT NULL DEFAULT 1,
+    movie_format TEXT NOT NULL,
+    movie_folder_format TEXT NOT NULL,
+    replace_illegal_characters INTEGER NOT NULL DEFAULT 0,
+    colon_replacement_format VARCHAR(20) NOT NULL DEFAULT 'smart',
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Sonarr naming configuration
+CREATE TABLE sonarr_naming (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    rename INTEGER NOT NULL DEFAULT 1,
+    standard_episode_format TEXT NOT NULL,
+    daily_episode_format TEXT NOT NULL,
+    anime_episode_format TEXT NOT NULL,
+    series_folder_format TEXT NOT NULL,
+    season_folder_format TEXT NOT NULL,
+    replace_illegal_characters INTEGER NOT NULL DEFAULT 0,
+    colon_replacement_format INTEGER NOT NULL DEFAULT 4,
+    custom_colon_replacement_format TEXT,
+    multi_episode_style INTEGER NOT NULL DEFAULT 5,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Radarr general media settings
+CREATE TABLE radarr_media_settings (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    propers_repacks VARCHAR(50) NOT NULL DEFAULT 'doNotPrefer',
+    enable_media_info INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Sonarr general media settings
+CREATE TABLE sonarr_media_settings (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    propers_repacks VARCHAR(50) NOT NULL DEFAULT 'doNotPrefer',
+    enable_media_info INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================================
+-- DELAY PROFILES
+-- ============================================================================
+
+-- Delay profiles control download timing preferences
+CREATE TABLE delay_profiles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    preferred_protocol VARCHAR(20) NOT NULL CHECK (
+        preferred_protocol IN ('prefer_usenet', 'prefer_torrent', 'only_usenet', 'only_torrent')
+    ),
+    usenet_delay INTEGER,  -- minutes, NULL if only_torrent
+    torrent_delay INTEGER,  -- minutes, NULL if only_usenet
+    bypass_if_highest_quality INTEGER NOT NULL DEFAULT 0,
+    bypass_if_above_custom_format_score INTEGER NOT NULL DEFAULT 0,
+    minimum_custom_format_score INTEGER,  -- Required when bypass_if_above_custom_format_score = 1
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    -- Enforce usenet_delay is NULL only when only_torrent
+    CHECK (
+        (preferred_protocol = 'only_torrent' AND usenet_delay IS NULL) OR
+        (preferred_protocol != 'only_torrent' AND usenet_delay IS NOT NULL)
+    ),
+    -- Enforce torrent_delay is NULL only when only_usenet
+    CHECK (
+        (preferred_protocol = 'only_usenet' AND torrent_delay IS NULL) OR
+        (preferred_protocol != 'only_usenet' AND torrent_delay IS NOT NULL)
+    ),
+    -- Enforce minimum_custom_format_score required when bypass enabled
+    CHECK (
+        (bypass_if_above_custom_format_score = 0 AND minimum_custom_format_score IS NULL) OR
+        (bypass_if_above_custom_format_score = 1 AND minimum_custom_format_score IS NOT NULL)
+    )
+);
+
+-- Link delay profiles to tags (at least 1 required - enforced at application level)
+CREATE TABLE delay_profile_tags (
+    delay_profile_id INTEGER NOT NULL,
+    tag_id INTEGER NOT NULL,
+    PRIMARY KEY (delay_profile_id, tag_id),
+    FOREIGN KEY (delay_profile_id) REFERENCES delay_profiles(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 );
 
 -- ============================================================================
