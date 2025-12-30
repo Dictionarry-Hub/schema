@@ -40,3 +40,11 @@ All schema changes will be documented in this file.
   - delay_profiles: protocol preference, delays, bypass conditions
   - delay_profile_tags: junction table for tag associations
   - CHECK constraints for protocol/delay validation
+
+## 31-12-25
+
+- Add custom format testing table
+  - custom_format_tests: stores test cases for validating custom format matching
+  - Each test specifies a release title and whether it should match the format
+  - Supports movie/series type differentiation for parser context
+  - Unique constraint on (custom_format_id, title, type) prevents duplicate tests

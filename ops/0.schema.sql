@@ -263,6 +263,24 @@ CREATE TABLE condition_years (
 );
 
 -- ============================================================================
+-- CUSTOM FORMAT TESTING
+-- ============================================================================
+
+-- Test cases for validating custom format matching logic
+-- Each test belongs to a custom format and specifies whether a title should match
+CREATE TABLE custom_format_tests (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    custom_format_id INTEGER NOT NULL,
+    title TEXT NOT NULL,              -- Release title to test against
+    type VARCHAR(20) NOT NULL,        -- 'movie' or 'series'
+    should_match INTEGER NOT NULL,    -- 1 = should match, 0 = should not match
+    description TEXT,                 -- Why this test exists / edge case covered
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(custom_format_id, title, type),
+    FOREIGN KEY (custom_format_id) REFERENCES custom_formats(id) ON DELETE CASCADE
+);
+
+-- ============================================================================
 -- MEDIA MANAGEMENT TABLES
 -- ============================================================================
 
