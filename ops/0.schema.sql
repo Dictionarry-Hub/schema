@@ -399,6 +399,39 @@ CREATE TABLE delay_profile_tags (
 );
 
 -- ============================================================================
+-- QUALITY PROFILE TESTING
+-- ============================================================================
+
+-- Test entities (movies/series for quality profile testing)
+CREATE TABLE test_entities (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type TEXT NOT NULL CHECK (type IN ('movie', 'series')),
+    tmdb_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    year INTEGER,
+    poster_path TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(type, tmdb_id)
+);
+
+-- Test releases attached to entities
+CREATE TABLE test_releases (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    test_entity_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    size_bytes INTEGER,
+    languages TEXT NOT NULL DEFAULT '[]',
+    indexers TEXT NOT NULL DEFAULT '[]',
+    flags TEXT NOT NULL DEFAULT '[]',
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (test_entity_id) REFERENCES test_entities(id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_test_releases_entity ON test_releases(test_entity_id);
+
+-- ============================================================================
 -- INDEXES AND CONSTRAINTS
 -- ============================================================================
 

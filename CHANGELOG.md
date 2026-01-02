@@ -49,3 +49,9 @@ All schema changes will be documented in this file.
   - Unique constraint on (custom_format_id, title, type) prevents duplicate tests
 - Add include_in_rename column to custom_formats table
   - Controls whether custom format name appears in renamed filenames
+
+## 3-1-26
+- Add quality profile testing tables
+  - test_entities: stores movies/series from TMDB for testing quality profiles
+  - test_releases: stores sample releases attached to test entities
+  - Supports languages, indexers, and flags as JSON arrays for release metadata
