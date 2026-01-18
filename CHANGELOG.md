@@ -57,7 +57,32 @@ All schema changes will be documented in this file.
   - Supports languages, indexers, and flags as JSON arrays for release metadata
 
 ## 19-1-26
-- Fix test_releases FK stability issue
-  - Changed from test_entity_id (auto-generated) to composite FK (entity_type, entity_tmdb_id)
-  - Ensures releases remain correctly linked after database recompile from ops
-  - Updated index to use composite key
+
+### Major FK Stability Overhaul
+All tables now use stable name-based keys instead of autoincrement IDs for foreign key
+references. This ensures data remains correctly linked after database recompile from ops.
+
+**Core principle:** Every FK now references a UNIQUE name column (or composite of names)
+instead of an autoincrement id column.
+
+- **test_releases**: Changed from test_entity_id to composite FK (entity_type, entity_tmdb_id)
+- **custom_format_conditions**: Changed custom_format_id to custom_format_name
+  - Added UNIQUE(custom_format_name, name) - condition names must be unique within a CF
+- **All condition child tables** (condition_patterns, condition_languages, condition_indexer_flags,
+  condition_sources, condition_resolutions, condition_quality_modifiers, condition_sizes,
+  condition_release_types, condition_years):
+  - Use (custom_format_name, condition_name) composite FK
+  - condition_patterns also uses regular_expression_name
+  - condition_languages also uses language_name
+- **quality_groups**: Changed quality_profile_id to quality_profile_name
+- **quality_group_members**: Uses (quality_profile_name, quality_group_name, quality_name)
+- **quality_profile_qualities**: Uses quality_profile_name, quality_name, quality_group_name
+- **quality_profile_custom_formats**: Uses (quality_profile_name, custom_format_name)
+- **quality_profile_languages**: Uses (quality_profile_name, language_name)
+- **quality_profile_tags**: Uses (quality_profile_name, tag_name)
+- **regular_expression_tags**: Uses (regular_expression_name, tag_name)
+- **custom_format_tags**: Uses (custom_format_name, tag_name)
+- **delay_profile_tags**: Uses (delay_profile_name, tag_name)
+- **quality_api_mappings**: Uses (quality_name, arr_type)
+- **custom_format_tests**: Uses custom_format_name
+- **radarr_quality_definitions / sonarr_quality_definitions**: Uses quality_name as PK
