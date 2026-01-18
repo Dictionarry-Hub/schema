@@ -55,3 +55,9 @@ All schema changes will be documented in this file.
   - test_entities: stores movies/series from TMDB for testing quality profiles
   - test_releases: stores sample releases attached to test entities
   - Supports languages, indexers, and flags as JSON arrays for release metadata
+
+## 19-1-26
+- Fix test_releases FK stability issue
+  - Changed from test_entity_id (auto-generated) to composite FK (entity_type, entity_tmdb_id)
+  - Ensures releases remain correctly linked after database recompile from ops
+  - Updated index to use composite key

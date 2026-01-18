@@ -416,9 +416,11 @@ CREATE TABLE test_entities (
 );
 
 -- Test releases attached to entities
+-- Uses composite FK (entity_type, entity_tmdb_id) for stable references across recompiles
 CREATE TABLE test_releases (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    test_entity_id INTEGER NOT NULL,
+    entity_type TEXT NOT NULL CHECK (entity_type IN ('movie', 'series')),
+    entity_tmdb_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     size_bytes INTEGER,
     languages TEXT NOT NULL DEFAULT '[]',
@@ -426,10 +428,10 @@ CREATE TABLE test_releases (
     flags TEXT NOT NULL DEFAULT '[]',
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (test_entity_id) REFERENCES test_entities(id) ON DELETE CASCADE
+    FOREIGN KEY (entity_type, entity_tmdb_id) REFERENCES test_entities(type, tmdb_id) ON DELETE CASCADE
 );
 
-CREATE INDEX idx_test_releases_entity ON test_releases(test_entity_id);
+CREATE INDEX idx_test_releases_entity ON test_releases(entity_type, entity_tmdb_id);
 
 -- ============================================================================
 -- INDEXES AND CONSTRAINTS
