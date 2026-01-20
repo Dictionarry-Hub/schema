@@ -2,6 +2,12 @@
 
 All schema changes will be documented in this file.
 
+## 21-1-26
+
+- Removed `delay_profile_tags` table - tags not needed for syncing since only the
+  default profile (id=1) can be updated, which must have empty tags
+- Only one delay profile syncs per arr instance; others are ignored
+
 ## 31-10-25
 
 - Hello, World!

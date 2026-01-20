@@ -401,6 +401,8 @@ CREATE TABLE sonarr_media_settings (
 -- ============================================================================
 
 -- Delay profiles control download timing preferences
+-- Note: Tags removed - Radarr/Sonarr only allows updating the default profile (id=1)
+-- which must have empty tags. Only one delay profile can be synced per arr instance.
 CREATE TABLE delay_profiles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(100) UNIQUE NOT NULL,
@@ -429,16 +431,6 @@ CREATE TABLE delay_profiles (
         (bypass_if_above_custom_format_score = 0 AND minimum_custom_format_score IS NULL) OR
         (bypass_if_above_custom_format_score = 1 AND minimum_custom_format_score IS NOT NULL)
     )
-);
-
--- Link delay profiles to tags (at least 1 required - enforced at application level)
--- Uses stable keys: delay_profile_name and tag_name
-CREATE TABLE delay_profile_tags (
-    delay_profile_name VARCHAR(100) NOT NULL,
-    tag_name VARCHAR(50) NOT NULL,
-    PRIMARY KEY (delay_profile_name, tag_name),
-    FOREIGN KEY (delay_profile_name) REFERENCES delay_profiles(name) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (tag_name) REFERENCES tags(name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- ============================================================================
