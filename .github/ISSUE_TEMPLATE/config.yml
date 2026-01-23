@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: 📖 Read CONTRIBUTING.md First
+    url: https://github.com/Dictionarry-Hub/schema/blob/main/CONTRIBUTING.md
+    about: The schema affects every PCD and Profilarr installation
+
+  - name: 💬 Discuss on Discord
+    url: https://discord.gg/XGdTJP5G8a
+    about: All schema changes must be discussed before submitting a PR
+
+  - name: 💬 Database Discussions
+    url: https://github.com/Dictionarry-Hub/database/discussions
+    about: Discuss schema changes with the community
