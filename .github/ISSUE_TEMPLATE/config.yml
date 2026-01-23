@@ -2,7 +2,7 @@ blank_issues_enabled: false
 
 contact_links:
   - name: 📖 Read CONTRIBUTING.md First
-    url: https://github.com/Dictionarry-Hub/schema/blob/main/CONTRIBUTING.md
+    url: https://github.com/Dictionarry-Hub/schema/blob/1.0.0/CONTRIBUTING.md
     about: The schema affects every PCD and Profilarr installation
 
   - name: 💬 Discuss on Discord
