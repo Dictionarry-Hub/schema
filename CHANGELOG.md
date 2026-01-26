@@ -2,6 +2,14 @@
 
 All schema changes will be documented in this file.
 
+## 27-1-26
+
+- Media management tables now support multiple named configurations
+  - Removed singleton constraints (`CHECK (id = 1)`) from naming and media settings tables
+  - Added `name` as primary key to: `radarr_naming`, `sonarr_naming`, `radarr_media_settings`, `sonarr_media_settings`
+  - Added `name` to composite primary key for: `radarr_quality_definitions`, `sonarr_quality_definitions`
+  - Allows storing multiple independent configs per table (e.g., different naming schemes, different quality size limits)
+
 ## 21-1-26
 
 - Removed `delay_profile_tags` table - tags not needed for syncing since only the

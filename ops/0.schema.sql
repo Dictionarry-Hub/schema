@@ -326,32 +326,36 @@ CREATE TABLE custom_format_tests (
 -- ============================================================================
 
 -- Radarr quality size definitions
--- Uses stable key: quality_name
+-- Uses stable key: (name, quality_name)
 CREATE TABLE radarr_quality_definitions (
-    quality_name VARCHAR(100) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    quality_name VARCHAR(100) NOT NULL,
     min_size INTEGER NOT NULL DEFAULT 0,
     max_size INTEGER NOT NULL,
     preferred_size INTEGER NOT NULL,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (name, quality_name),
     FOREIGN KEY (quality_name) REFERENCES qualities(name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Sonarr quality size definitions
--- Uses stable key: quality_name
+-- Uses stable key: (name, quality_name)
 CREATE TABLE sonarr_quality_definitions (
-    quality_name VARCHAR(100) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    quality_name VARCHAR(100) NOT NULL,
     min_size INTEGER NOT NULL DEFAULT 0,
     max_size INTEGER NOT NULL,
     preferred_size INTEGER NOT NULL,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (name, quality_name),
     FOREIGN KEY (quality_name) REFERENCES qualities(name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Radarr naming configuration
 CREATE TABLE radarr_naming (
-    id INTEGER PRIMARY KEY CHECK (id = 1),
+    name VARCHAR(100) PRIMARY KEY,
     rename INTEGER NOT NULL DEFAULT 1,
     movie_format TEXT NOT NULL,
     movie_folder_format TEXT NOT NULL,
@@ -363,7 +367,7 @@ CREATE TABLE radarr_naming (
 
 -- Sonarr naming configuration
 CREATE TABLE sonarr_naming (
-    id INTEGER PRIMARY KEY CHECK (id = 1),
+    name VARCHAR(100) PRIMARY KEY,
     rename INTEGER NOT NULL DEFAULT 1,
     standard_episode_format TEXT NOT NULL,
     daily_episode_format TEXT NOT NULL,
@@ -380,7 +384,7 @@ CREATE TABLE sonarr_naming (
 
 -- Radarr general media settings
 CREATE TABLE radarr_media_settings (
-    id INTEGER PRIMARY KEY CHECK (id = 1),
+    name VARCHAR(100) PRIMARY KEY,
     propers_repacks VARCHAR(50) NOT NULL DEFAULT 'doNotPrefer',
     enable_media_info INTEGER NOT NULL DEFAULT 1,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -389,7 +393,7 @@ CREATE TABLE radarr_media_settings (
 
 -- Sonarr general media settings
 CREATE TABLE sonarr_media_settings (
-    id INTEGER PRIMARY KEY CHECK (id = 1),
+    name VARCHAR(100) PRIMARY KEY,
     propers_repacks VARCHAR(50) NOT NULL DEFAULT 'doNotPrefer',
     enable_media_info INTEGER NOT NULL DEFAULT 1,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
