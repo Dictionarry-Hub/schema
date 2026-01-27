@@ -104,4 +104,7 @@ instead of an autoincrement id column.
   - `radarr_naming.colon_replacement_format`: delete, dash, spaceDash, spaceDashSpace, smart
   - `radarr_media_settings.propers_repacks`: doNotPrefer, preferAndUpgrade, doNotUpgradeAutomatically
   - `sonarr_media_settings.propers_repacks`: doNotPrefer, preferAndUpgrade, doNotUpgradeAutomatically
+- Added explicit NOT NULL to VARCHAR PRIMARY KEY columns for proper type inference
+  - `radarr_naming.name`, `sonarr_naming.name`, `radarr_media_settings.name`, `sonarr_media_settings.name`
+  - SQLite PRIMARY KEY doesn't imply NOT NULL for non-INTEGER columns; explicit declaration needed for type generators
 

@@ -355,7 +355,7 @@ CREATE TABLE sonarr_quality_definitions (
 
 -- Radarr naming configuration
 CREATE TABLE radarr_naming (
-    name VARCHAR(100) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL PRIMARY KEY,
     rename INTEGER NOT NULL DEFAULT 1,
     movie_format TEXT NOT NULL,
     movie_folder_format TEXT NOT NULL,
@@ -368,7 +368,7 @@ CREATE TABLE radarr_naming (
 
 -- Sonarr naming configuration
 CREATE TABLE sonarr_naming (
-    name VARCHAR(100) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL PRIMARY KEY,
     rename INTEGER NOT NULL DEFAULT 1,
     standard_episode_format TEXT NOT NULL,
     daily_episode_format TEXT NOT NULL,
@@ -385,7 +385,7 @@ CREATE TABLE sonarr_naming (
 
 -- Radarr general media settings
 CREATE TABLE radarr_media_settings (
-    name VARCHAR(100) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL PRIMARY KEY,
     propers_repacks VARCHAR(50) NOT NULL DEFAULT 'doNotPrefer'
         CHECK (propers_repacks IN ('doNotPrefer', 'preferAndUpgrade', 'doNotUpgradeAutomatically')),
     enable_media_info INTEGER NOT NULL DEFAULT 1,
@@ -395,7 +395,7 @@ CREATE TABLE radarr_media_settings (
 
 -- Sonarr general media settings
 CREATE TABLE sonarr_media_settings (
-    name VARCHAR(100) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL PRIMARY KEY,
     propers_repacks VARCHAR(50) NOT NULL DEFAULT 'doNotPrefer'
         CHECK (propers_repacks IN ('doNotPrefer', 'preferAndUpgrade', 'doNotUpgradeAutomatically')),
     enable_media_info INTEGER NOT NULL DEFAULT 1,
