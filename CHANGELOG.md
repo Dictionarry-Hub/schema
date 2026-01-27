@@ -2,20 +2,6 @@
 
 All schema changes will be documented in this file.
 
-## 27-1-26
-
-- Media management tables now support multiple named configurations
-  - Removed singleton constraints (`CHECK (id = 1)`) from naming and media settings tables
-  - Added `name` as primary key to: `radarr_naming`, `sonarr_naming`, `radarr_media_settings`, `sonarr_media_settings`
-  - Added `name` to composite primary key for: `radarr_quality_definitions`, `sonarr_quality_definitions`
-  - Allows storing multiple independent configs per table (e.g., different naming schemes, different quality size limits)
-
-## 21-1-26
-
-- Removed `delay_profile_tags` table - tags not needed for syncing since only the
-  default profile (id=1) can be updated, which must have empty tags
-- Only one delay profile syncs per arr instance; others are ignored
-
 ## 31-10-25
 
 - Hello, World!
@@ -100,3 +86,22 @@ instead of an autoincrement id column.
 - **quality_api_mappings**: Uses (quality_name, arr_type)
 - **custom_format_tests**: Uses custom_format_name
 - **radarr_quality_definitions / sonarr_quality_definitions**: Uses quality_name as PK
+
+## 21-1-26
+
+- Removed `delay_profile_tags` table - tags not needed for syncing since only the
+  default profile (id=1) can be updated, which must have empty tags
+- Only one delay profile syncs per arr instance; others are ignored
+
+## 27-1-26
+
+- Media management tables now support multiple named configurations
+  - Removed singleton constraints (`CHECK (id = 1)`) from naming and media settings tables
+  - Added `name` as primary key to: `radarr_naming`, `sonarr_naming`, `radarr_media_settings`, `sonarr_media_settings`
+  - Added `name` to composite primary key for: `radarr_quality_definitions`, `sonarr_quality_definitions`
+  - Allows storing multiple independent configs per table (e.g., different naming schemes, different quality size limits)
+- Added CHECK constraints for enum-like columns (enables type generation)
+  - `radarr_naming.colon_replacement_format`: delete, dash, spaceDash, spaceDashSpace, smart
+  - `radarr_media_settings.propers_repacks`: doNotPrefer, preferAndUpgrade, doNotUpgradeAutomatically
+  - `sonarr_media_settings.propers_repacks`: doNotPrefer, preferAndUpgrade, doNotUpgradeAutomatically
+

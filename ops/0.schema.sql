@@ -360,7 +360,8 @@ CREATE TABLE radarr_naming (
     movie_format TEXT NOT NULL,
     movie_folder_format TEXT NOT NULL,
     replace_illegal_characters INTEGER NOT NULL DEFAULT 0,
-    colon_replacement_format VARCHAR(20) NOT NULL DEFAULT 'smart',
+    colon_replacement_format VARCHAR(20) NOT NULL DEFAULT 'smart'
+        CHECK (colon_replacement_format IN ('delete', 'dash', 'spaceDash', 'spaceDashSpace', 'smart')),
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -385,7 +386,8 @@ CREATE TABLE sonarr_naming (
 -- Radarr general media settings
 CREATE TABLE radarr_media_settings (
     name VARCHAR(100) PRIMARY KEY,
-    propers_repacks VARCHAR(50) NOT NULL DEFAULT 'doNotPrefer',
+    propers_repacks VARCHAR(50) NOT NULL DEFAULT 'doNotPrefer'
+        CHECK (propers_repacks IN ('doNotPrefer', 'preferAndUpgrade', 'doNotUpgradeAutomatically')),
     enable_media_info INTEGER NOT NULL DEFAULT 1,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -394,7 +396,8 @@ CREATE TABLE radarr_media_settings (
 -- Sonarr general media settings
 CREATE TABLE sonarr_media_settings (
     name VARCHAR(100) PRIMARY KEY,
-    propers_repacks VARCHAR(50) NOT NULL DEFAULT 'doNotPrefer',
+    propers_repacks VARCHAR(50) NOT NULL DEFAULT 'doNotPrefer'
+        CHECK (propers_repacks IN ('doNotPrefer', 'preferAndUpgrade', 'doNotUpgradeAutomatically')),
     enable_media_info INTEGER NOT NULL DEFAULT 1,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
