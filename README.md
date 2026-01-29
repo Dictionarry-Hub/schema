@@ -13,6 +13,9 @@ This repository hosts the base schema applied to all
   </picture>
 </p>
 
+Diagram is auto-generated from `ops/0.schema.sql` by the
+`generate-schema-diagram` workflow. Do not edit the SVGs by hand.
+
 ## Documentation
 
 - [Manifest Specification](docs/manifest.md) - Required manifest file format for

@@ -1,0 +1,39 @@
+name: Generate Schema Diagram
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ops/0.schema.sql
+      - scripts/generate-schema-diagram.sh
+      - .github/workflows/generate-schema-diagram.yml
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Generate diagram
+        run: ./scripts/generate-schema-diagram.sh
+
+      - name: Commit updates
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/image/schema.svg .github/image/schema-dark.svg README.md
+          git commit -m "chore: update schema diagram"
+          git push
