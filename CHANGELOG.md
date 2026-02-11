@@ -108,10 +108,3 @@ instead of an autoincrement id column.
   - `radarr_naming.name`, `sonarr_naming.name`, `radarr_media_settings.name`, `sonarr_media_settings.name`
   - SQLite PRIMARY KEY doesn't imply NOT NULL for non-INTEGER columns; explicit declaration needed for type generators
 
-## 10-2-26
-
-- Added cleanup triggers for orphaned conditions
-  - `trg_condition_patterns_cleanup`: when a `condition_patterns` row is cascade-deleted (e.g., referenced regex deleted upstream), the parent condition in `custom_format_conditions` is also deleted
-  - `trg_condition_languages_cleanup`: same for `condition_languages` when a referenced language is deleted
-  - Prevents orphaned conditions that exist without their type-specific data
-

@@ -1,6 +1,6 @@
 {
   "name": "schema",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Base schema for all Profilarr Compliant Databases - defines the structural foundation that all PCDs build upon",
   "arr_types": ["radarr", "sonarr"],
   
